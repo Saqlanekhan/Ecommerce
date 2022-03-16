@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Project</title>
+    <link rel="stylesheet" href="style.css">
+  
+    <style>
+        .container {
+  padding: 16px;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+        
+            <li><a href="dynamicstore.html">STORE</a></li>
+            <li><a href="#">Add-Product</a></li>
+
+             
+            
+        </ul>
+        <h1>E-Commerce Project</h1>
+    </header>
+  
+<div class="container">
+    <form action="" onsubmit="submt(event)">
+<label for="prod-name">Enter product name:</label><input type="text" name="prod-name" id="prod-name"> <br>
+<label for="prod-img">Enter product image URL : </label><input type="text" name="prod-img" id="prod-img"> <br>
+<label for="prod-price">Enter product price : </label><input type="text" name="prod-price" id="prod-price"><br>
+<label for="prod-category">Enter product category : </label><input type="text" name="prod-category" id="prod-category"><br>
+<input type="submit" value="submit" class="registerbtn">
+
+    </form>
+</div>
+
+
+       
+     
+    <div id="container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+ <script>
+   function submt(e){
+     e.preventDefault();
+     const form=new FormData(e.target);
+
+     const details={
+       name:form.get('prod-name'),
+       img:form.get('prod-img'),
+       price:form.get('prod-price'),
+       category:form.get('prod-category')
+     }
+     axios.post('http://localhost:3000/addproduct',details).then((res)=>{
+      window.location.href='./dynamicstore.html'
+     })
+     .catch((er)=>{
+       alert(er.response.data.message)
+     })
+   }
+
+ </script>
+</body>
+</html>
