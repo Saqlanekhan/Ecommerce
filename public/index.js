@@ -1,15 +1,76 @@
+if(localStorage.getItem('email')==null){
+document.getElementById('hide').style.display="none"
+document.getElementById('hide_logout').style.display='none'
+
+}else{
+    document.getElementById('hide_login').style.display="none"
+
+}
+
+var logout=document.getElementById('hide_logout').addEventListener('click',()=>localStorage.removeItem('email'))
+let total;
+let current_page=1
+let limit=4
+
 const container=document.getElementById('music-content');
 
+a(1)
+function nextP(){
+    container.innerHTML=""
+    current_page++
+   document.getElementById('current_page').innerText=current_page
+   a(current_page)
+    console.log('next called')
+}
+function prevP(){
+    container.innerHTML=""
+    current_page--;
+    document.getElementById('current_page').innerText=current_page
+    a(current_page)
+    console.log('prev called')
+}
 
-axios.get('http://localhost:3000/getproducts').then((res)=>{
-    const mydata=res.data.message;
-mydata.forEach((d)=>{
-create(d)
-})
-console.log(mydata)
-}).catch(er=>console.log(er))
+function a(current_page){
+    axios.get(`http://localhost:3000/get_products?page=${current_page}&limit=${limit}`).then((res)=>{
+        const mydata=res.data;
+        
+       
+        console.log(mydata)
+        if(mydata.length<=0){
+            console.log('nonehbhj')
+            alert('thst it')
+            return
+        }
+        total=res.data[0].total;
+    mydata.forEach((d)=>{
+    create(d)
+    })
+    let   no_of_page=Math.ceil(total/limit)
+    console.log('page no : '+no_of_page)
+    console.log(current_page)
+    if(no_of_page<1) no_of_page=1;
+    if(no_of_page>total) page=total
+    if(current_page==1){
+       
+      document.getElementById('prev').style.display='none'
+      
+
+    }else{
+        document.getElementById('prev').style.display='inline-block'
+    }
+    if(current_page==no_of_page){
+        document.getElementById('next').style.display='none'
+    }else{
+        document.getElementById('next').style.display='inline-block'
+    }
+    
+    }).catch(er=>console.log(er))
+}
+
+
 
 function create(data){
+
 let divv=document.createElement(`div`);
 divv.setAttribute("id",`${data.name.split(' ')[0]}`)
 divv.innerHTML=` <h3>${data.name}</h3>
@@ -24,6 +85,7 @@ divv.innerHTML=` <h3>${data.name}</h3>
 
 
 container.appendChild(divv)
+  
 }
 
 
@@ -36,8 +98,11 @@ document.addEventListener('click',(e)=>{
         console.log(id)
         const name = document.querySelector(`#${id} h3`).innerText;
         const img_src = document.querySelector(`#${id} img`).src;
+        console.log(img_src)
         const price = e.target.parentNode.firstElementChild.firstElementChild.innerText;
+        console.log(price)
         let total_cart_price = document.querySelector('#total-value').innerText;
+        console.log(total_cart_price)
         if (document.querySelector(`#in-cart-${id}`)){
             alert('This item is already added to the cart');
             return 
@@ -49,6 +114,7 @@ document.addEventListener('click',(e)=>{
         total_cart_price = parseFloat(total_cart_price) + parseFloat(price)
         total_cart_price = total_cart_price.toFixed(2)
         document.querySelector('#total-value').innerText = `${total_cart_price}`;
+        console.log(cart_item)
         cart_item.innerHTML = `
         <span class='cart-item cart-column'>
         <img class='cart-img' src="${img_src}" alt="">
@@ -59,6 +125,8 @@ document.addEventListener('click',(e)=>{
         <input type="text" value="1">
         <button>REMOVE</button>
     </span>`
+
+
         cart_items.appendChild(cart_item)
        
         const container = document.getElementById('container');
@@ -81,6 +149,12 @@ document.addEventListener('click',(e)=>{
             alert('You have Nothing in Cart , Add some products to purchase !');
             return
         }
+    if(localStorage.getItem('email')==null){
+        alert('Please login') 
+        return
+    }
+
+
         alert('Thanks for the purchase')
         cart_items.innerHTML = ""
         document.querySelector('.cart-number').innerText = 0
@@ -95,4 +169,6 @@ document.addEventListener('click',(e)=>{
         e.target.parentNode.parentNode.remove()
     }
 })
+
+
 

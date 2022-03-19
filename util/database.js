@@ -5,8 +5,20 @@ const pool = mysql.createPool({
     user     : 'root',
     password : 'password@123',
     database : 'ecomerce',
+    
    
 });
 
 
-module.exports=pool.promise()
+exports.pool=pool.promise()
+exports.db=exports.db = (qry) =>{
+    return new Promise((resolve, reject)=>{
+        pool.query(qry,  (error, elements)=>{
+            if(error){
+                return reject(error);
+            }
+            return resolve(elements);
+        });
+    });
+};
+ 

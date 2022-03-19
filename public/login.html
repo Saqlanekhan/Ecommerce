@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Project</title>
+    <link rel="stylesheet" href="style.css">
+  
+    <style>
+        .container {
+  padding: 16px;
+}
+.flex-container {
+    display: flex;
+}
+
+.flex-child {
+    flex: 1;
+    border: 2px solid rgba(0, 102, 255, 0.301);
+}  
+
+.flex-child:first-child {
+    margin-right: 20px;
+} 
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+
+/* Set a grey background color and center the text of the "sign in" section */
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <ul>
+        
+            <li><a href="dynamicstore.html">STORE</a></li>
+            <li><a href="#">Please register</a></li>
+
+             
+            
+        </ul>
+        <h1>E-Commerce Project</h1>
+    </header>
+  <div class="flex-container flex-child">
+    <div class="container">
+        <form action="" onsubmit="login(event)">
+            <h1>Login</h1><br>
+    <label for="prod-name">Enter your email:</label><input type="text"  name="email"> <br>
+    <label for="prod-img">Enter Password : </label><input type="text"  name="password"> <br>
+    <!-- <label for="prod-price">Enter product price : </label><input type="text" name="prod-price" id="prod-price"><br>
+    <label for="prod-category">Enter product category : </label><input type="text" name="prod-category" id="prod-category"><br> -->
+    <input type="submit" value="Login" class="registerbtn">
+    
+        </form>
+    </div>
+    
+    <div class="container flex-child">
+        <form action="" onsubmit="signUp(event)">
+            <h1>Signup here</h1><br>
+    <label for="prod-name">Enter your Name:</label><input type="text"  name="nameS"> <br>
+    <label for="prod-img">Enter your  email : </label><input type="text"  name="emailS"> <br>
+    <label for="prod-price">Enter your Number : </label><input type="text"  name="numberS"><br>
+    <label for="prod-category">Enter your Password : </label><input type="text"  name="passwordS"><br>
+    <input type="submit" value="Signup" class="registerbtn">
+    
+        </form>
+    </div>
+  </div>
+
+
+       
+     
+    <div id="container"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+   function login(e){
+     e.preventDefault();
+     const form=new FormData(e.target);
+
+     const logindetails = {
+       email:form.get('email'),
+       password:form.get('password')
+       
+     }
+     console.log(logindetails)
+     axios.post('http://localhost:3000/login',logindetails)
+  .then(function (response) {
+   alert(response.data.message)
+   localStorage.setItem('email',logindetails.email)
+   window.location.href='./dynamicstore.html'
+    console.log(response);  
+  }).catch(er=>{
+    console.log(er.response)
+    alert(er.response.data.message)
+  })
+  
+   }
+
+   function signUp(e){
+      e.preventDefault();   
+        
+        const form=new FormData(e.target);
+        let signUpDetails={
+            email:form.get('emailS'),
+            name:form.get('nameS'),
+            phone:form.get('numberS'),
+            password:form.get('passwordS')
+            }  
+            console.log(signUpDetails)
+            axios.post('http://localhost:3000/signup',signUpDetails)
+  // .then(function (response) {
+  //   console.log(response);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+
+  .then(function (response) {
+  
+   alert(response.data.message)
+    console.log(response);
+  });
+
+
+          }
+
+
+    </script>
+
+
+</body>
+</html>

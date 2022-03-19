@@ -150,6 +150,7 @@ section h2{
 #merch-content div{
     margin:30px;
 }
+
 #merch-content div h3{
     display: block;
     width: 100%;
@@ -393,6 +394,7 @@ header ul a{
     border:1px solid rgb(177, 103, 103);
     min-height:50vh;
 }
+
 #cart h2{
     margin:20px 0px;
     padding:0;
@@ -401,7 +403,7 @@ header ul a{
 .cart-btn-bottom{
     display:flex;
     padding:15px;
-    background-color: #777;
+    background-color: #56CCF2;
     border:none;
     border-radius:7px;
     margin:auto;
@@ -409,7 +411,7 @@ header ul a{
 }
 .cart-bottom{
     text-decoration: none;
-    color:#56CCF2;
+    color:white;
     font-size: 16px;
     font-weight:700;
 }
@@ -428,4 +430,17 @@ header ul a{
     padding:5px;
 }
 
+.pagination{
+    margin-top: 2rem;
+    text-align: center;
+   
+}
+
+.pagination a{
+    text-decoration: none;
+    color: #0eabdf;
+    padding: 0.5rem;
+    border: 1px solid #0eabdf;
+    margin: 0 1rem;
+}
 
