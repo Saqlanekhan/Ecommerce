@@ -17,6 +17,6 @@ app.use(userRoute)
 app.use(loginRoute)
 
 app.use(require('./route/paginate'))
-
+app.use(require('./route/orders'))
 
 app.listen(PORT,()=> console.log('sever is up and running....,,,'))

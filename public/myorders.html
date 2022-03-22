@@ -21,11 +21,20 @@
     <section id="tours" class='container'>
         <h2>ORDERS</h2>
         <div>
+            <div id="orders">
+                
+          
             <div class="tour-item">
                 
-                <h1>Order 1</h1>
+                <h1 id="order_id">Order Id</h1><h1 id="p_name" style="margin-left: 170px;">Product Name</h1>
+                <h1 id="p_name" style="margin-left: 170px;">Price</h1>
             </div>
-           
+            <!-- <div class="tour-item">
+                
+                <h1>Order Id</h1><h1 style="margin-left: 250px;">Product Name</h1>
+            </div>
+            -->
+         </div>
     </section>
   
     <footer>
@@ -46,5 +55,23 @@
             </ul>
         </div>
     </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer" ></script>
+
+    <script>
+        
+axios.post('http://localhost:3000/order',{email:localStorage.getItem('email')}).then((rs)=>{
+    const data=rs.data.message;
+    
+    data.forEach(d => {
+        console.log(d)
+        const div=document.createElement(`div`)
+        div.setAttribute('class','tour-item');
+        div.innerHTML=`   <h1 id="order_id">${d.order_id}</h1><h1 id="p_name" style="margin-left:250px;">${d.name}</h1>
+        <h1 id="p_name" style="margin-left:240px;">$${d.price}</h1>`
+        document.getElementById('orders').appendChild(div)
+    });
+})
+.catch(er=>console.log(er.response))
+    </script>
 </body>
 </html>

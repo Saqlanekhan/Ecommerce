@@ -1,3 +1,7 @@
+
+document.getElementById('add_product').style.display="none"
+
+
 if(localStorage.getItem('email')==null){
 document.getElementById('hide').style.display="none"
 document.getElementById('hide_logout').style.display='none'
@@ -5,7 +9,15 @@ document.getElementById('hide_logout').style.display='none'
 }else{
     document.getElementById('hide_login').style.display="none"
 
+    if((localStorage.getItem('email'))=="admin@gmail.com"){
+        document.getElementById('add_product').style.display="block" 
+        document.getElementById('hide').style.display="none"
+
+    }
+
 }
+
+
 
 var logout=document.getElementById('hide_logout').addEventListener('click',()=>localStorage.removeItem('email'))
 let total;
@@ -33,14 +45,7 @@ function prevP(){
 function a(current_page){
     axios.get(`http://localhost:3000/get_products?page=${current_page}&limit=${limit}`).then((res)=>{
         const mydata=res.data;
-        
-       
-        console.log(mydata)
-        if(mydata.length<=0){
-            console.log('nonehbhj')
-            alert('thst it')
-            return
-        }
+     
         total=res.data[0].total;
     mydata.forEach((d)=>{
     create(d)
@@ -49,7 +54,7 @@ function a(current_page){
     console.log('page no : '+no_of_page)
     console.log(current_page)
     if(no_of_page<1) no_of_page=1;
-    if(no_of_page>total) page=total
+    // if(no_of_page>total) page=total
     if(current_page==1){
        
       document.getElementById('prev').style.display='none'
@@ -118,7 +123,7 @@ document.addEventListener('click',(e)=>{
         cart_item.innerHTML = `
         <span class='cart-item cart-column'>
         <img class='cart-img' src="${img_src}" alt="">
-            <span>${name}</span>
+            <span class='cart-name'>${name}</span>
     </span>
     <span class='cart-price cart-column'>${price}</span>
     <span class='cart-quantity cart-column'>
@@ -153,10 +158,28 @@ document.addEventListener('click',(e)=>{
         alert('Please login') 
         return
     }
+    let i=0
+    const order=[]
+    const price=document.getElementsByClassName('cart-price');
+  for(let i=0;i<price.length-1;i++) {
+    
+      const name=document.getElementsByClassName('cart-name')
+      console.log(i)
 
+      console.log(price[i+1].innerText,name[i].innerText);
+      order.push({name:name[i].innerText,price:price[i+1].innerText})
+     
+      
+  }
+
+  
+   axios.post('http://localhost:3000/take_order',{order:order,email:localStorage.getItem('email')}).
+   then((res)=>{
+console.log(res)
+   }).catch(er=>console.log(er.reponse))
 
         alert('Thanks for the purchase')
-        cart_items.innerHTML = ""
+         cart_items.innerHTML = ""
         document.querySelector('.cart-number').innerText = 0
         document.querySelector('#total-value').innerText = `0`;
     }
